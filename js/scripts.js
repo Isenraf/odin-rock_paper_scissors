@@ -1,71 +1,153 @@
 "use strict";
 
-const scores = [0,0];
-const CHOICES = ['rock', 'paper', 'scissors'];
-
-
-function getComputerChoice() {
-    return CHOICES[Math.floor(Math.random() * 3)];
-}
-
-function getPlayerChoice() {
-    const message = `Choose between the following i.e 1, 2, or 3.
-    1.Rock
-    2.Paper
-    3.Scissors
-    `;
-
-    const userInput = parseInt(prompt(message));
-
-    if(isNaN(userInput))
-        return "Try to enter a real number.";
-
-    if(![1,2,3].includes(userInput))
-        return "Try to respect the ranges. 1,2,3";
+const launchGame = (function () {
+    let timerID;
+    let counter = 3;
+    let playerSelection;
+    let computerSelection;
+    const scores = [0,0];
+    const CHOICES = ['rock', 'paper', 'scissors'];
     
-    return CHOICES[userInput-1];
-}
+    let btn;
+    let score;
+    let markup;
+    let messageBox;
+    let computerBox;
+    let iconsNodeList;
+    const gameNode = document.querySelector('.game-box');
 
-function playRound(playerSelection, computerSelection) {
-    // check player input
-    if(!CHOICES.includes(playerSelection)) 
-        return playerSelection;
+    function renderDefaultHTML () {
+        markup = generateDefaultHTML();
 
-    // rules...
-    if(playerSelection === computerSelection) {
-        return 'There is a tie';
-    } else if(computerSelection === 'rock' && playerSelection === 'scissors') {
-        scores[0]++;
-        return 'You Lose! rock beats scissors';
-    } else if(computerSelection === 'paper' && playerSelection === 'rock') {
-        scores[0]++;
-        return 'You Lose! paper beats rock';
-    } else if(computerSelection === 'scissors' && playerSelection === 'paper') {
-        scores[0]++;
-        return 'You Lose! scissors beats paper';
-    } else {
-        scores[1]++;
-        return `You Win! ${playerSelection} beats ${computerSelection}`;
+        clearNode(gameNode);
+        gameNode.insertAdjacentHTML('beforeend', markup);
     }
-}
 
-function checkWinner(computerScore, playerScore) {
-    console.log(computerScore, playerScore);
+    function renderPlayGround(node) {
+        markup = generatePlayGroundHTML(node);
 
-    if(computerScore === playerScore) {
-        return 'NO WINNER!!!';
-    } else if(computerScore > playerScore) {
-        return 'COMPUTER WINS!!!';
-    } else if(computerScore < playerScore) {
-        return 'PLAYER WINS!!!';
+        clearNode(gameNode);
+        gameNode.insertAdjacentHTML('beforeend', markup);
     }
-}
 
-function game() {
-    for (let i = 0; i < 5; i++) {
-        console.log(playRound(getPlayerChoice(), getComputerChoice()));    
+    function clearNode (node) {
+        node.textContent = '';
     }
-    console.log(checkWinner(scores[0], scores[1]));
-}
 
-game();
+    function playRound (player) {
+        computerBox = document.querySelector('.comp');
+
+        timerID = setInterval(function() {
+            computerBox.textContent = counter;
+
+            if(counter === 0) {
+                playerSelection = player.classList[1];
+                computerSelection = getComputerChoice();
+
+                computerBox.classList.add(`${computerSelection}`);
+                markup = `
+                    <img src="./img/icon-${computerSelection}.svg" alt="${computerSelection} icon">
+                `;
+                
+                clearNode(computerBox);
+                computerBox.insertAdjacentHTML('beforeend', markup);
+
+                markup = `
+                    <p class="main-text">${checkWinner(playerSelection, computerSelection)}</p>
+                    <button class="btn main-text" type="button">Play Again!</button>
+                `;
+                messageBox = document.querySelector('.msg');
+                messageBox.insertAdjacentHTML('beforeend', markup);
+
+                player.insertAdjacentHTML('beforeend', markup);
+                handleButtonClick();
+
+                clearInterval(timerID);
+            }
+
+            counter--;
+        }, 500);
+    }
+
+    function handleNodeClicks () {
+        iconsNodeList = document.querySelectorAll('.icon-box');
+        
+        iconsNodeList.forEach(node => node.addEventListener('click', function() {
+            gameNode.style.backgroundImage = "none";
+            renderPlayGround(this);
+            playRound(this);
+        }))
+    }
+
+    function handleButtonClick () {
+        btn = document.querySelector('.btn');
+
+        btn.addEventListener('click', function() {
+            renderDefaultHTML();
+            gameNode.style.backgroundImage = "url('./img/triangle.svg')";
+            handleNodeClicks();
+            counter = 3;
+        })
+    }
+
+    function getComputerChoice() {
+        return CHOICES[Math.floor(Math.random() * 3)];
+    }
+
+    function generateDefaultHTML () {
+        return `
+            <div class="top-box">
+                <div class="icon-box paper"><img src="./img/icon-paper.svg" alt="paper icon"></div>
+                <div class="icon-box scissors"><img src="./img/icon-scissors.svg" alt="scissors icon"></div>
+            </div>
+            <div class="icon-box rock"><img src="./img/icon-rock.svg" alt="rock icon"></div>
+            
+        `;
+    }
+
+    function generatePlayGroundHTML (node) {
+        node.classList.add('icon-box-bigger');
+        const stringifiedNode = node.outerHTML;
+        return `
+            <div class="top-title">
+                <p class="main-text">Player</p>
+                <p class="main-text">Computer</p>
+            </div>
+            <div class="top-box">
+                ${stringifiedNode}
+                <div class="msg">
+                </div>
+                <div class="icon-box main-text icon-box-bigger  comp"></div>
+            </div>
+        `;
+    }
+
+    function checkWinner(playerSelection, computerSelection) {
+        if(playerSelection === computerSelection) {
+            return 'Tie';
+        } else if(computerSelection === 'rock' && playerSelection === 'scissors') {
+            scores[0]++;
+            return 'You Lose!';
+        } else if(computerSelection === 'paper' && playerSelection === 'rock') {
+            scores[0]++;
+            return 'You Lose!';
+        } else if(computerSelection === 'scissors' && playerSelection === 'paper') {
+            scores[0]++;
+            return 'You Lose!';
+        } else {
+            scores[1]++;
+            score = document.querySelector('.score');
+            score.textContent = `${scores[1]}`;
+            return `You Win!`;
+        }
+    }
+    
+    function init () {
+        renderDefaultHTML();
+        handleNodeClicks();
+    }
+
+    return init;
+})();
+
+launchGame();

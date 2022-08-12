@@ -1,0 +1,132 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Satisfy', cursive;
+    background-color: #08204F;
+}
+
+header {
+    width: 636px;
+    height: auto;
+    padding: 16px;
+    margin: 16px auto 50px;
+    border: 2px solid #606e85;
+    border-radius: 10px;
+    color: #fff;
+    text-transform: uppercase;
+
+    display: flex;
+    justify-content: space-between;
+}
+
+button {
+    font-family: inherit;
+    padding: 16px 32px;
+    border: none;
+    border-radius: 10px;
+    background-color: #d9480f;
+    color: #fff;
+    cursor: pointer;
+
+}
+
+.rgt-column {
+    width: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background-color: #fff;
+    color: initial;
+}
+
+.main-text {
+    font-size: 22px;
+    font-weight: bolder;
+    text-transform: uppercase;
+}
+
+.sub-text {
+    color: #0B80A1;
+    font-size: 14px;
+    font-weight: bolder;
+}
+
+/* GAME */
+.game-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.game-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    background-image: url('../img/triangle.svg');
+    background-repeat: no-repeat;
+    background-size: 250px;
+    background-position: center;
+}
+
+.top-box {
+    display: flex;
+    gap: 64px;
+}
+
+.icon-box {
+    width: 150px;
+    height: 150px;
+    border-radius: 100%;
+    background-color: #fff;
+    box-shadow: inset 0px 2px 16px #343a40;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.icon-box-bigger {
+    width: 200px;
+    height: 200px;
+}
+
+.icon-box:hover {
+    cursor: pointer;
+}
+
+.paper {
+    border: 15px solid #37b24d;
+}
+.scissors {
+    border: 15px solid #f03e3e;
+}
+
+.rock {
+    border: 15px solid #f59f00;
+}
+
+.top-title {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    gap: 250px;
+    text-transform: uppercase;
+    margin-bottom: 50px;
+    color: #fff;
+}
+
+.msg {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    color: wheat;
+}
