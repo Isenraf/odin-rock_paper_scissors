@@ -1,34 +1,86 @@
 <!DOCTYPE html>
-<html lang="en-us">
-    <head>
-        <meta charset="utf-8">
-        <title>Rock, Paper, Scissors</title>
-        <!-- GOOGLE FONTS -->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Satisfy&display=swap" rel="stylesheet">
-        
-        <link rel="stylesheet" href="./css/styles.css">
-        <script src="./js/scripts.js" defer></script>
-    </head>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rock Paper Scissors</title>
 
-    <body>
-        <header>
-            <div class="lft-column">
-                <p class="main-text">Rock</p>
-                <p class="main-text">Paper</p>
-                <p class="main-text">Scissors</p>
-            </div>
-    
-            <div class="rgt-column">
-                <p class="sub-text">your score</p>
-                <p class="main-text score">0</p>
-            </div>
-        </header>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Rakkas&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Vollkorn:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
 
-        <section class="game-section">
-            <div class="game-box">
+    <link rel="stylesheet" href="./css/styles.css" />
+
+    <script src="./js/scripts.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <span>rock 📌 paper 📌 scissors</span>
+    </header>
+
+    <main>
+      <section class="message">
+        <p class="mTitle"></p>
+
+        <div class="mDetail">
+          <p class="mDetail-title">You win!</p>
+          <p class="mDetail-description">Scissors is beaten by rock</p>
+        </div>
+      </section>
+
+      <section class="play-ground">
+        <div class="user-box">
+          <div class="score-box">
+            <p>Your Score</p>
+            <p class="score"></p>
+          </div>
+
+          <div class="selection-box">
+            <div class="selected user-emoji">❓</div>
+
+            <div class="options">
+              <button class="btn btn-user" data-opt="rock">✊</button>
+              <button class="btn btn-user" data-opt="paper">✋</button>
+              <button class="btn btn-user" data-opt="scissors">🖖</button>
             </div>
-        </section>
-    </body>
+          </div>
+
+          <div class="user-footer">
+            <p>Take a pick</p>
+          </div>
+        </div>
+
+        <div class="computer-box">
+          <div class="score-box">
+            <p>Computer Score</p>
+            <p class="score"></p>
+          </div>
+
+          <div class="selection-box">
+            <div class="selected computer-emoji">❓</div>
+
+            <div class="options">
+              <button class="btn btn-not_allowed">✊</button>
+              <button class="btn btn-not_allowed">✋</button>
+              <button class="btn btn-not_allowed">🖖</button>
+            </div>
+          </div>
+
+          <div class="user-footer">
+            <p>Computer automatically makes a pick</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>Copyright © 2023 Silidje Moket</footer>
+  </body>
 </html>

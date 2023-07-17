@@ -1,132 +1,148 @@
 * {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
 
 body {
-    font-family: 'Satisfy', cursive;
-    background-color: #08204F;
+  font-family: 'Vollkorn', serif;
+  font-weight: 400;
+  max-width: 1440px;
+  min-height: 100vh;
+  margin: 0 auto;
+  background-color: #ffc078;
+
+  display: flex;
+  gap: 16px;
+  flex-direction: column;
 }
 
-header {
-    width: 636px;
-    height: auto;
-    padding: 16px;
-    margin: 16px auto 50px;
-    border: 2px solid #606e85;
-    border-radius: 10px;
-    color: #fff;
-    text-transform: uppercase;
-
-    display: flex;
-    justify-content: space-between;
+header span {
+  font-family: 'Rakkas', cursive;
+  font-weight: 400;
+  font-size: 24px;
+  text-transform: uppercase;
 }
 
-button {
-    font-family: inherit;
-    padding: 16px 32px;
-    border: none;
-    border-radius: 10px;
-    background-color: #d9480f;
-    color: #fff;
-    cursor: pointer;
-
+header,
+footer {
+  padding: 16px 0;
+  text-align: center;
 }
 
-.rgt-column {
-    width: 100px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border-radius: 10px;
-    background-color: #fff;
-    color: initial;
+footer {
+  font-weight: 700;
 }
 
-.main-text {
-    font-size: 22px;
-    font-weight: bolder;
-    text-transform: uppercase;
+main {
+  flex-grow: 1;
+  /* border: 1px solid; */
+
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
 }
 
-.sub-text {
-    color: #0B80A1;
-    font-size: 14px;
-    font-weight: bolder;
+/* MESSAGE-BOX */
+.mDetail,
+.mTitle {
+  text-align: center;
 }
 
-/* GAME */
-.game-section {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.mTitle {
+  font-family: 'Rakkas', cursive;
+  font-weight: 400;
+  font-size: 32px;
+  text-transform: uppercase;
 }
 
-.game-box {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    background-image: url('../img/triangle.svg');
-    background-repeat: no-repeat;
-    background-size: 250px;
-    background-position: center;
+.mDetail-title {
+  font-size: 18px;
 }
 
-.top-box {
-    display: flex;
-    gap: 64px;
+/* PLAY_GROUND-BOX */
+.play-ground {
+  flex-grow: 1;
+  flex-wrap: wrap;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 64px;
 }
 
-.icon-box {
-    width: 150px;
-    height: 150px;
-    border-radius: 100%;
-    background-color: #fff;
-    box-shadow: inset 0px 2px 16px #343a40;
-    
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.user-box,
+.computer-box {
+  width: 480px;
+  /* max-height: 416px; */
+  border-radius: 15px;
+  background-color: #192444;
+  color: white;
+  /* border: 4px dashed red; */
 }
 
-.icon-box-bigger {
-    width: 200px;
-    height: 200px;
+.score-box {
+  font-family: 'Rakkas', cursive;
+  text-align: center;
+  margin-top: 8px;
 }
 
-.icon-box:hover {
-    cursor: pointer;
+.selection-box {
+  width: 240px;
+  /* border: 1px solid; */
+  margin: 16px auto;
+
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
-.paper {
-    border: 15px solid #37b24d;
-}
-.scissors {
-    border: 15px solid #f03e3e;
+.selected {
+  flex-grow: 1;
+  font-size: 120px;
+  height: 240px;
+  border-radius: 15px;
+  padding-top: 16px;
+  /* background-color: black; */
+  border: 4px dashed #1864ab;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.rock {
-    border: 15px solid #f59f00;
+.btn {
+  font-size: 50px;
+  background-color: #e9ecef;
+  border: none;
+  border-radius: 10px;
+  padding: 4px;
+  cursor: pointer;
 }
 
-.top-title {
-    width: 100%;
-    display: flex;
-    justify-content: space-around;
-    gap: 250px;
-    text-transform: uppercase;
-    margin-bottom: 50px;
-    color: #fff;
+.btn-not_allowed {
+  cursor: not-allowed;
 }
 
-.msg {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 16px;
-    color: wheat;
+.options {
+  display: flex;
+  justify-content: space-between;
+}
+
+.user-footer {
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+/* AUTO */
+.marked {
+  border: 2px solid red;
+}
+
+.btn-def {
+  padding: 8px 16px;
+  font-weight: 700;
+  border: none;
+  border-radius: 5px;
+  text-transform: capitalize;
 }

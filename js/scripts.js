@@ -1,153 +1,120 @@
-"use strict";
+let round = 1;
+let score = [0, 0];
 
-const launchGame = (function () {
-    let timerID;
-    let counter = 3;
-    let playerSelection;
-    let computerSelection;
-    const scores = [0,0];
-    const CHOICES = ['rock', 'paper', 'scissors'];
-    
-    let btn;
-    let score;
-    let markup;
-    let messageBox;
-    let computerBox;
-    let iconsNodeList;
-    const gameNode = document.querySelector('.game-box');
+const userScore = document.querySelector('.user-box .score');
+const computerScore = document.querySelector('.computer-box .score');
 
-    function renderDefaultHTML () {
-        markup = generateDefaultHTML();
+const buttons = document.querySelectorAll('.btn-user');
 
-        clearNode(gameNode);
-        gameNode.insertAdjacentHTML('beforeend', markup);
-    }
+const messageTitle = document.querySelector('.mTitle');
+const messageDetailTitle = document.querySelector('.mDetail-title');
+const messageDetailDescription = document.querySelector('.mDetail-description');
 
-    function renderPlayGround(node) {
-        markup = generatePlayGroundHTML(node);
+const userEmoji = document.querySelector('.user-emoji');
+const computerEmoji = document.querySelector('.computer-emoji');
+const emoji = {
+  rock: '✊',
+  paper: '✋',
+  scissors: '🖖',
+};
 
-        clearNode(gameNode);
-        gameNode.insertAdjacentHTML('beforeend', markup);
-    }
+function getComputerChoice() {
+  // 1. initialize a list of pre-defined values
+  const LIST = ['rock', 'paper', 'scissors'];
 
-    function clearNode (node) {
-        node.textContent = '';
-    }
+  // 2. randomly select a value from the list
+  const randomNumber = Math.floor(Math.random() * LIST.length);
 
-    function playRound (player) {
-        computerBox = document.querySelector('.comp');
+  // 3. return what was selected in (2)
+  return LIST[randomNumber];
+}
 
-        timerID = setInterval(function() {
-            computerBox.textContent = counter;
+function checkWinner(e) {
+  const playerSelection = e.target.dataset.opt;
+  const computerSelection = getComputerChoice();
 
-            if(counter === 0) {
-                playerSelection = player.classList[1];
-                computerSelection = getComputerChoice();
+  const _log = playRound(playerSelection, computerSelection).split('!');
 
-                computerBox.classList.add(`${computerSelection}`);
-                markup = `
-                    <img src="./img/icon-${computerSelection}.svg" alt="${computerSelection} icon">
-                `;
-                
-                clearNode(computerBox);
-                computerBox.insertAdjacentHTML('beforeend', markup);
+  if (score[0] === 5 || score[1] === 5) {
+    buttons.forEach((btn) => (btn.disabled = true));
 
-                markup = `
-                    <p class="main-text">${checkWinner(playerSelection, computerSelection)}</p>
-                    <button class="btn main-text" type="button">Play Again!</button>
-                `;
-                messageBox = document.querySelector('.msg');
-                messageBox.insertAdjacentHTML('beforeend', markup);
+    messageDetailTitle.textContent = `${_log[0]}!`;
+    messageDetailDescription.innerHTML =
+      '<button class="btn-def">play again</button>';
+    userScore.textContent = score[0];
+    computerScore.textContent = score[1];
+    userEmoji.textContent = emoji[playerSelection];
+    computerEmoji.textContent = emoji[computerSelection];
+  }
 
-                player.insertAdjacentHTML('beforeend', markup);
-                handleButtonClick();
+  const restart = document.querySelector('.btn-def');
 
-                clearInterval(timerID);
-            }
+  console.log(restart);
+  if (restart) {
+    restart.addEventListener('click', function (e) {
+      init();
+      buttons.forEach((btn) => (btn.disabled = false));
+    });
+    return;
+  }
 
-            counter--;
-        }, 500);
-    }
+  messageDetailTitle.textContent = `${_log[0]}!`;
+  messageDetailDescription.textContent = _log[1];
+  userScore.textContent = score[0];
+  computerScore.textContent = score[1];
+  userEmoji.textContent = emoji[playerSelection];
+  computerEmoji.textContent = emoji[computerSelection];
 
-    function handleNodeClicks () {
-        iconsNodeList = document.querySelectorAll('.icon-box');
-        
-        iconsNodeList.forEach(node => node.addEventListener('click', function() {
-            gameNode.style.backgroundImage = "none";
-            renderPlayGround(this);
-            playRound(this);
-        }))
-    }
+  round++;
+  messageTitle.textContent = `Round ${round}`;
+}
 
-    function handleButtonClick () {
-        btn = document.querySelector('.btn');
+function playRound(playerSelection, computerSelection) {
+  /*  --- RULES ---
+        :: Rock wins against scissors.
+        :: Scissors win against paper.
+        :: Paper wins against rock.
+    */
 
-        btn.addEventListener('click', function() {
-            renderDefaultHTML();
-            gameNode.style.backgroundImage = "url('./img/triangle.svg')";
-            handleNodeClicks();
-            counter = 3;
-        })
-    }
+  // 1. check for a WIN
+  if (
+    (playerSelection === 'rock' && computerSelection === 'scissors') ||
+    (playerSelection === 'paper' && computerSelection === 'rock') ||
+    (playerSelection === 'scissors' && computerSelection === 'paper')
+  ) {
+    score[0]++;
+    return `You Win! ${playerSelection} beats ${computerSelection}`;
+  }
 
-    function getComputerChoice() {
-        return CHOICES[Math.floor(Math.random() * 3)];
-    }
+  // 2. check for a tie
+  if (playerSelection === computerSelection) {
+    return `Draw! There is a TIE`;
+  }
 
-    function generateDefaultHTML () {
-        return `
-            <div class="top-box">
-                <div class="icon-box paper"><img src="./img/icon-paper.svg" alt="paper icon"></div>
-                <div class="icon-box scissors"><img src="./img/icon-scissors.svg" alt="scissors icon"></div>
-            </div>
-            <div class="icon-box rock"><img src="./img/icon-rock.svg" alt="rock icon"></div>
-            
-        `;
-    }
+  // 3. return a lose
+  score[1]++;
+  return `You Lose! ${computerSelection} beats ${playerSelection}`;
+}
 
-    function generatePlayGroundHTML (node) {
-        node.classList.add('icon-box-bigger');
-        const stringifiedNode = node.outerHTML;
-        return `
-            <div class="top-title">
-                <p class="main-text">Player</p>
-                <p class="main-text">Computer</p>
-            </div>
-            <div class="top-box">
-                ${stringifiedNode}
-                <div class="msg">
-                </div>
-                <div class="icon-box main-text icon-box-bigger  comp"></div>
-            </div>
-        `;
-    }
+function init() {
+  messageTitle.textContent = `Round 1`;
+  messageDetailTitle.textContent = 'Take a pick';
+  messageDetailDescription.textContent =
+    'First to score 5 points wins the game';
 
-    function checkWinner(playerSelection, computerSelection) {
-        if(playerSelection === computerSelection) {
-            return 'Tie';
-        } else if(computerSelection === 'rock' && playerSelection === 'scissors') {
-            scores[0]++;
-            return 'You Lose!';
-        } else if(computerSelection === 'paper' && playerSelection === 'rock') {
-            scores[0]++;
-            return 'You Lose!';
-        } else if(computerSelection === 'scissors' && playerSelection === 'paper') {
-            scores[0]++;
-            return 'You Lose!';
-        } else {
-            scores[1]++;
-            score = document.querySelector('.score');
-            score.textContent = `${scores[1]}`;
-            return `You Win!`;
-        }
-    }
-    
-    function init () {
-        renderDefaultHTML();
-        handleNodeClicks();
-    }
+  userScore.textContent = '0';
+  computerScore.textContent = '0';
 
-    return init;
-})();
+  userEmoji.textContent = '❓';
+  computerEmoji.textContent = '❓';
 
-launchGame();
+  round = 1;
+  score = [0, 0];
+}
+
+function game() {
+  init();
+  buttons.forEach((btn) => btn.addEventListener('click', checkWinner));
+}
+
+game();
